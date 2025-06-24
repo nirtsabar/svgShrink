@@ -1,4 +1,11 @@
-<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>מכווץ קוד SVG</title><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מכווץ קוד SVG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
         :root {
             --primary-start: #3498db;
             --primary-end: #2980b9;
@@ -14,7 +21,7 @@
             --header-end: #34495e;
             --bg-grad-start: #667eea;
             --bg-grad-end: #764ba2;
-            --text-light: #fff;
+            --text-light: #ffffff;
             --text-dark: #2c3e50;
             --text-muted: #64748b;
             --border-light: #e2e8f0;
@@ -406,7 +413,94 @@
             .modal-body { grid-template-columns: 1fr; }
             .code-panel { border-left: none; border-bottom: 1px solid var(--border-light); }
         }
-    </style></head><body><div class="container"><div class="header"><h1>מכווץ קוד SVG</h1><p>בצעו אופטימיזציה ודחיסה לקוד ה-SVG שלכם עם אלגוריתמים מתקדמים</p></div><div class="main-content"><div class="controls"><div class="control-group"><label for="precision">דיוק:</label><input type="number" id="precision" value="3" min="1" max="5"><input type="checkbox" id="keepInteger" checked><label for="keepInteger">שמור על שלמים</label></div><div class="button-row"><button class="btn btn-primary" id="optimizeBtn" title="כווץ SVG">🗜️</button><button class="btn btn-tertiary" id="clearBtn" title="נקה הכל">🗑️</button><button class="btn btn-quaternary" id="compareBtn" title="השווה קוד">⚖️</button><button class="btn btn-quinary" id="copyBtn" title="העתק תוצאה">📋</button></div></div><div class="grid"><div class="section"><div class="section-header">SVG מקורי</div><div class="section-content"><textarea id="originalSVG" placeholder="הדביקו כאן את קוד ה-SVG שלכם..."></textarea><div class="preview" id="originalPreview"></div></div></div><div class="section"><div class="section-header">SVG ממוטב</div><div class="section-content"><textarea id="shortenedSVG" readonly></textarea><div class="preview" id="shortenedPreview"></div></div></div></div><div class="stats" id="stats"><div class="stat"><div class="stat-value" id="originalSize">-</div><div class="stat-label">גודל מקורי</div></div><div class="stat"><div class="stat-value" id="shortenedSize">-</div><div class="stat-label">גודל ממוטב</div></div><div class="stat"><div class="stat-value" id="reduction">-</div><div class="stat-label">חיסכון</div></div><div class="stat"><div class="stat-value" id="optimized">-</div><div class="stat-label">פריטים שעברו אופטימיזציה</div></div></div></div></div><div id="comparisonModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>השוואת קוד זה לצד זה</h2><span class="close-btn" id="closeModalBtn">&times;</span></div><div class="modal-body"><div class="code-panel"><h3>קוד SVG מקורי</h3><div class="formatted-code" id="originalFormatted"></div></div><div class="code-panel"><h3>קוד SVG ממוטב</h3><div class="formatted-code" id="shortenedFormatted"></div></div></div></div></div><div id="toast" class="toast-notification"></div><script>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>מכווץ קוד SVG</h1>
+            <p>בצעו אופטימיזציה ודחיסה לקוד ה-SVG שלכם עם אלגוריתמים מתקדמים</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="precision">דיוק:</label>
+                    <input type="number" id="precision" value="3" min="1" max="5">
+                    <input type="checkbox" id="keepInteger" checked>
+                    <label for="keepInteger">שמור על שלמים</label>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-primary" id="optimizeBtn" title="כווץ SVG">🗜️</button>
+                    <button class="btn btn-tertiary" id="clearBtn" title="נקה הכל">🗑️</button>
+                    <button class="btn btn-quaternary" id="compareBtn" title="השווה קוד">⚖️</button>
+                    <button class="btn btn-quinary" id="copyBtn" title="העתק תוצאה">📋</button>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="section">
+                    <div class="section-header">SVG מקורי</div>
+                    <div class="section-content">
+                        <textarea id="originalSVG" placeholder="הדביקו כאן את קוד ה-SVG שלכם..."></textarea>
+                        <div class="preview" id="originalPreview"></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-header">SVG ממוטב</div>
+                    <div class="section-content">
+                        <textarea id="shortenedSVG" readonly></textarea>
+                        <div class="preview" id="shortenedPreview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats" id="stats">
+                <div class="stat">
+                    <div class="stat-value" id="originalSize">-</div>
+                    <div class="stat-label">גודל מקורי</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="shortenedSize">-</div>
+                    <div class="stat-label">גודל ממוטב</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="reduction">-</div>
+                    <div class="stat-label">חיסכון</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="optimized">-</div>
+                    <div class="stat-label">פריטים שעברו אופטימיזציה</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div id="comparisonModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>השוואת קוד זה לצד זה</h2>
+                <span class="close-btn" id="closeModalBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="code-panel">
+                    <h3>קוד SVG מקורי</h3>
+                    <div class="formatted-code" id="originalFormatted"></div>
+                </div>
+                <div class="code-panel">
+                    <h3>קוד SVG ממוטב</h3>
+                    <div class="formatted-code" id="shortenedFormatted"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toast" class="toast-notification"></div>
+
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
         'use strict';
 
@@ -732,7 +826,7 @@
                  return `#${r}${g}${b}`;
             });
 
-            optimized = optimized.replace(//g, '');
+            optimized = optimized.replace(/<!--[\s\S]*?-->/g, '');
             optimized = optimized.replace(/>\s+</g, '><').trim();
 
             return { code: optimized, numbersOptimized };
@@ -803,7 +897,7 @@
                 elements.originalPreview.innerHTML = elements.originalSVG.value;
             });
 
-            const exampleSVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>i</title><g id="Complete"><g id="shrink"><g><polyline id="Right-2" data-name="Right" points="10 17.7 10 14 6.3 14" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline><line x1="3" y1="21" x2="9.2" y2="14.8" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><polyline id="Right-3" data-name="Right" points="14 6.3 14 10 17.7 10" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline><line x1="21" y1="3" x2="14.8" y2="9.2" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line></g></g></g></g></svg>`;
+            const exampleSVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>i</title> <g id="Complete"> <g id="shrink"> <g> <polyline id="Right-2" data-name="Right" points="10 17.7 10 14 6.3 14" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> <line x1="3" y1="21" x2="9.2" y2="14.8" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line> <polyline id="Right-3" data-name="Right" points="14 6.3 14 10 17.7 10" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> <line x1="21" y1="3" x2="14.8" y2="9.2" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line> </g> </g> </g> </g></svg>`;
             elements.originalSVG.value = exampleSVG;
             elements.originalPreview.innerHTML = exampleSVG;
             
@@ -812,4 +906,6 @@
 
         init();
     });
-    </script></body></html>
+    </script>
+</body>
+</html>
