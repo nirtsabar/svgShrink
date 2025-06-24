@@ -1,0 +1,2 @@
+# svgShrink
+Shrinks SVG codes
